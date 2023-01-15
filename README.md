@@ -1,2 +1,2 @@
 # alura-budgetControlAPI
-Challenge Alura - Criação de um API de controle orçamentário familiar.
+Challenge Alura - Criação de um API para controle orçamentário familiar.
