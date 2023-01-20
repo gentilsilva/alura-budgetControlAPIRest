@@ -28,7 +28,12 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 
 - [x] Banco de Dados
 * A modelagem do banco ficou da seguinte forma: 
-  * Entidade Receitas 
+  * Entidade Receita 
     * Descrição
     * Valor
-    * Data 
+    * Data
+  
+  * Entidade Despesa
+    * Descrição
+    * Valor
+    * Data
