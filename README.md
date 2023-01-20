@@ -44,4 +44,6 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 * A API possui um endPoint que aceita requisições do tipo POST para as URIs
   * /incomes
   * /expenses
-* Os dados dessas requisições serão enviados no corpo da requisição no formato JSON(JavaScript Object Notation)
+* Os dados dessas requisições serão enviados no corpo da requisição no formato JSON (JavaScript Object Notation);
+* Todas as informações tanto de receita quanto de despesa são obrigatórias;
+* A API não permit o cadastro de receitas e despesas duplicadas (contendo mesma descrição, dentro do mesmo mês);
