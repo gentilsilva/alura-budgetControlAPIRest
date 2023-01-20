@@ -29,11 +29,19 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 - [x] Banco de Dados
 * A modelagem do banco ficou da seguinte forma: 
   * Entidade Receita 
+    * Id
     * Descrição
     * Valor
     * Data
   
   * Entidade Despesa
+    * Id
     * Descrição
     * Valor
     * Data
+
+- [x] Cadastro
+* A API possui um endPoint que aceita requisições do tipo POST para as URIs
+  * /incomes
+  * /expenses
+* Os dados dessas requisições serão enviados no corpo da requisição no formato JSON(JavaScript Object Notation)
