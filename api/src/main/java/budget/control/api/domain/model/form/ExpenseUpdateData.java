@@ -1,34 +1,27 @@
 package budget.control.api.domain.model.form;
 
-import budget.control.api.domain.repository.IncomeRepository;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.Valid;
+import budget.control.api.domain.repository.ExpenseRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
-public record IncomeRegistration(
-
+public record ExpenseUpdateData(
         @NotBlank
         String description,
-
         @NotNull
         BigDecimal entryValue,
-
-        @NotBlank
+        @NotNull
         String createAt
+
 ) {
 
-        public Boolean isRepeatable(IncomeRepository incomeRepository) {
+        public Boolean isRepeatable(ExpenseRepository expenseRepository) {
                 LocalDate dateIn = LocalDate.parse(createAt()).with(TemporalAdjusters.firstDayOfMonth());
                 LocalDate dateOff = LocalDate.parse(createAt()).with(TemporalAdjusters.lastDayOfMonth());
-                Boolean isActive = true;
-                return incomeRepository.findByDescriptionAndActiveAndCreateAtBetween(description(), isActive, dateIn, dateOff).isPresent();
+                return expenseRepository.findAllByDescriptionAndCreateAtBetween(description(), dateIn, dateOff).isPresent();
         }
 
 }

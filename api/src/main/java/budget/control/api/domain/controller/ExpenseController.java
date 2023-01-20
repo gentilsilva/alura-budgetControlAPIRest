@@ -1,15 +1,13 @@
 package budget.control.api.domain.controller;
 
 import budget.control.api.domain.model.form.ExpenseRegistration;
+import budget.control.api.domain.model.form.ExpenseUpdateData;
 import budget.control.api.domain.service.ExpenseService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -21,8 +19,30 @@ public class ExpenseController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity create(@RequestBody @Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
-        return expenseService.create(expenseRegistration, uriBuilder);
+    public ResponseEntity createExpense(@RequestBody @Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
+        return expenseService.createExpense(expenseRegistration, uriBuilder);
+    }
+
+    @GetMapping
+    public ResponseEntity readAllExpense() {
+        return expenseService.readAllExpense();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity readExpenseById(@PathVariable Long id) {
+        return expenseService.readExpenseById(id);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity updateExpenseById(@PathVariable Long id, @RequestBody @Valid ExpenseUpdateData expenseUpdateData) {
+        return expenseService.updateExpenseById(id, expenseUpdateData);
+    }
+
+    @DeleteMapping("{id}")
+    @Transactional
+    public ResponseEntity deleteExpenseById(@PathVariable Long id) {
+        return expenseService.deleteExpenseById(id);
     }
 
 }

@@ -1,6 +1,5 @@
 package budget.control.api.domain.model.form;
 
-import budget.control.api.domain.model.Expense;
 import budget.control.api.domain.repository.ExpenseRepository;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +23,7 @@ public record ExpenseRegistration(
     public Boolean isRepeatable(ExpenseRepository expenseRepository) {
         LocalDate dateIn = LocalDate.parse(createAt()).with(TemporalAdjusters.firstDayOfMonth());
         LocalDate dateOff = LocalDate.parse(createAt()).with(TemporalAdjusters.lastDayOfMonth());
-        return expenseRepository.findAllByDescriptionAndCreateAtBetween(description(), dateIn, dateOff).isPresent();
+        Boolean isActive = true;
+        return expenseRepository.findAllByDescriptionAndActiveAndCreateAtBetween(description(), isActive, dateIn, dateOff).isPresent();
     }
 }

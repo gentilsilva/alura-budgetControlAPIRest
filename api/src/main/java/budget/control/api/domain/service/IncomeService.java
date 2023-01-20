@@ -3,16 +3,14 @@ package budget.control.api.domain.service;
 import budget.control.api.domain.model.Income;
 import budget.control.api.domain.model.dto.DetailedIncomeData;
 import budget.control.api.domain.model.form.IncomeRegistration;
+import budget.control.api.domain.model.form.IncomeUpdateData;
 import budget.control.api.domain.repository.IncomeRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 
 @Service
 public class IncomeService {
@@ -20,9 +18,7 @@ public class IncomeService {
     @Autowired
     private IncomeRepository incomeRepository;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-    public ResponseEntity create(@Valid IncomeRegistration incomeRegistration, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity createIncome( IncomeRegistration incomeRegistration, UriComponentsBuilder uriBuilder) {
         if(incomeRegistration.isRepeatable(incomeRepository)) {
             return ResponseEntity.badRequest().body("Receita já registrada no mês");
         }
@@ -35,4 +31,32 @@ public class IncomeService {
         return ResponseEntity.created(uri).body(new DetailedIncomeData(income));
     }
 
+    public ResponseEntity readAllIncome() {
+        var incomeList = incomeRepository.findAllByActiveTrue();
+
+        return ResponseEntity.ok().body(incomeList.stream().map(DetailedIncomeData::new).toList());
+    }
+
+    public ResponseEntity readIncomeById(Long id) {
+        var income = incomeRepository.getReferenceByIdAndActiveTrue(id);
+
+        return ResponseEntity.ok(new DetailedIncomeData(income));
+    }
+
+    public ResponseEntity updateIncomeById(Long id, IncomeUpdateData incomeUpdateData) {
+        if(incomeUpdateData.isRepeatable(incomeRepository)) {
+            return ResponseEntity.badRequest().body("Receita já registrada no mês");
+        }
+       var income = incomeRepository.getReferenceByIdAndActiveTrue(id);
+       income.updateIncome(incomeUpdateData);
+
+       return ResponseEntity.ok(new DetailedIncomeData(income));
+    }
+
+    public ResponseEntity deleteIncomeById(Long id) {
+        var income = incomeRepository.getReferenceByIdAndActiveTrue(id);
+        income.inactivateIncome();
+
+        return ResponseEntity.noContent().build();
+    }
 }

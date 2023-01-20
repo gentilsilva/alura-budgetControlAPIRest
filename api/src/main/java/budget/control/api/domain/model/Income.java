@@ -1,7 +1,7 @@
 package budget.control.api.domain.model;
 
 import budget.control.api.domain.model.form.IncomeRegistration;
-import budget.control.api.domain.repository.IncomeRepository;
+import budget.control.api.domain.model.form.IncomeUpdateData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -10,9 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalAdjusters;
 
 @Table(name = "incomes")
 @Entity(name = "Income")
@@ -28,10 +25,22 @@ public class Income {
     private BigDecimal entryValue;
     private LocalDate createAt;
 
+    private Boolean active;
+
     public Income(IncomeRegistration incomeRegistration) {
         this.description = incomeRegistration.description();
         this.entryValue = incomeRegistration.entryValue();
         this.createAt = LocalDate.parse(incomeRegistration.createAt());
+        this.active = true;
     }
 
+    public void updateIncome(IncomeUpdateData incomeUpdateData) {
+        this.description = incomeUpdateData.description();
+        this.entryValue = incomeUpdateData.entryValue();
+        this.createAt = LocalDate.parse(incomeUpdateData.createAt());
+    }
+
+    public void inactivateIncome() {
+        this.active = false;
+    }
 }
