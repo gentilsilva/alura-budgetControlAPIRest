@@ -23,3 +23,12 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 * Maven
 * Isomnia
 * Intellij IDEA
+
+# <h2 align="center"> 1º Semana  </h2>
+
+- [x] Banco de Dados
+* A modelagem do banco ficou da seguinte forma: 
+** Entidade Receitas 
+*** Descrição
+*** Valor
+*** Data
