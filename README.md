@@ -40,6 +40,8 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
     * Valor
     * Data
 
+---
+
 - [x] Cadastro
 * A API possui endPoints que aceitam requisições do tipo POST para as URIs
   * /incomes
@@ -59,12 +61,16 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
   * /expenses/{id}
 * Todos os dados (descrição, valor e data) serão devolvidos no corpo das duas requisições
 
+---
+
 - [x] Atualizando dados
 * A API possui endpoints que aceitam requisições do tipo PUT para atualizar as Receitas e Despesas para as URIs
   * /incomes/{id}
   * /expenses/{id}
 * O ID informado na URI recupera os dados gravados no banco para serem atualizados.
 * Ao atualizar deverão ser informadas descrição, valor e data e estas informações não podem ser duplicadas.
+
+---
 
 - [x] Deletando informações
 * A API possui endpoinst que aceitam requisições do tipo DELETE para as URIs
