@@ -41,9 +41,33 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
     * Data
 
 - [x] Cadastro
-* A API possui um endPoint que aceita requisições do tipo POST para as URIs
+* A API possui endPoints que aceitam requisições do tipo POST para as URIs
   * /incomes
   * /expenses
-* Os dados dessas requisições serão enviados no corpo da requisição no formato JSON (JavaScript Object Notation);
-* Todas as informações tanto de receita quanto de despesa são obrigatórias;
-* A API não permit o cadastro de receitas e despesas duplicadas (contendo mesma descrição, dentro do mesmo mês);
+* Os dados serão enviados no corpo da requisição no formato JSON (JavaScript Object Notation)
+* Todas as informações tanto de receita quanto de despesa são obrigatórias
+* A API não permite o cadastro de receitas e despesas duplicadas (contendo mesma descrição, dentro do mesmo mês)
+
+- [x] Listagem/Detalhando informações
+* A API possui endpoints que aceitam requisições do tipo GET que irá listar todas as Receitas e Despesas para as URIs
+  * /incomes
+  * /expenses
+* A API possui também um endpoint que aceita requisições do tipo GET passando o parâmetro ID nas URIs
+  * /incomes/{id}
+  * /expenses/{id}
+* Todos os dados (descrição, valor e data) serão devolvidos no corpo das duas requisições
+
+- [x] Atualizando dados
+* A API possui endpoints que aceitam requisições do tipo PUT para atualizar as Receitas e Despesas para as URIs
+  * /incomes/{id}
+  * /expenses/{id}
+* O ID informado na URI recupera os dados gravados no banco para serem atualizados.
+* Ao atualizar deverão ser informadas descrição, valor e data e estas informações não podem ser duplicadas.
+
+- [x] Deletando informações
+* A API possui endpoinst que aceitam requisições do tipo DELETE para as URIs
+  * /incomes/{id}
+  * /expenses/{id}
+* Os IDs serão referente aos dados que a aplicação deve deletar
+* Essa requisição não apaga os dados permanente do banco, simplismente desativa estes
+* Ao desativá-los, não será possível listar ou atualizar estes, mas será possível adicionar outra Receita ou Despesa com as mesmas informações
