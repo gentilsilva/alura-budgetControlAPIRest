@@ -48,7 +48,7 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 * Todas as informações tanto de receita quanto de despesa são obrigatórias
 * A API não permite o cadastro de receitas e despesas duplicadas (contendo mesma descrição, dentro do mesmo mês)
 
-&nbsp---
+---
 
 - [x] Listagem/Detalhando informações
 * A API possui endpoints que aceitam requisições do tipo GET que irá listar todas as Receitas e Despesas para as URIs
