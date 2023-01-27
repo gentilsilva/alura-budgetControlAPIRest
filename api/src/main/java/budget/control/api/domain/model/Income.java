@@ -25,14 +25,14 @@ public class Income {
 
 
     public Income(IncomeRegistration incomeRegistration) {
-        this.description = incomeRegistration.description();
+        this.description = incomeRegistration.description().toUpperCase();
         this.entryValue = incomeRegistration.entryValue();
         this.createAt = LocalDate.parse(incomeRegistration.createAt());
         this.active = true;
     }
 
     public void updateIncome(IncomeUpdateData incomeUpdateData) {
-        this.description = incomeUpdateData.description();
+        this.description = incomeUpdateData.description().toUpperCase();
         this.entryValue = incomeUpdateData.entryValue();
         this.createAt = LocalDate.parse(incomeUpdateData.createAt());
     }

@@ -19,4 +19,6 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
     Income getReferenceByIdAndActiveTrue(Long id);
 
     Optional<?> findByDescriptionAndActiveAndCreateAtBetween(String description, Boolean isActive, LocalDate dateIn, LocalDate dateOff);
+
+    Page<Income> findAllByActiveTrueAndDescription(Pageable pageable, String description);
 }

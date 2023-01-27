@@ -49,6 +49,10 @@ public class IncomeService {
         return ResponseEntity.ok(new DetailedIncomeData(income));
     }
 
+    public ResponseEntity<Page<?>> readIncomeByDescription(Pageable pageable, String description) {
+        return ResponseEntity.ok(incomeRepository.findAllByActiveTrueAndDescription(pageable, description.toUpperCase()).map(DetailedIncomeData::new));
+    }
+
     public ResponseEntity updateIncomeById(Long id, IncomeUpdateData incomeUpdateData) {
         if(incomeUpdateData.isRepeatable(incomeRepository)) {
             return ResponseEntity.badRequest().body("Receita já registrada no mês");
@@ -64,10 +68,6 @@ public class IncomeService {
         income.inactivateIncome();
 
         return ResponseEntity.noContent().build();
-    }
-
-    protected String setCategory() {
-        return "OUTRAS";
     }
 
 }

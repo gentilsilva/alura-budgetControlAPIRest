@@ -10,7 +10,6 @@ public record DetailedExpenseData(
         String description,
         BigDecimal entryValue,
         LocalDate createAt,
-
         Category category
 ) {
 

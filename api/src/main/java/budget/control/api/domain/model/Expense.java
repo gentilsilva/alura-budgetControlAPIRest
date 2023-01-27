@@ -32,7 +32,7 @@ public class Expense {
     private Category category;
 
     public Expense(ExpenseRegistration expenseRegistration, ExpenseRegistrationService expenseRegistrationService) {
-      this.description = expenseRegistration.description();
+      this.description = expenseRegistration.description().toUpperCase();
       this.entryValue = expenseRegistration.entryValue();
       this.createAt = LocalDate.parse(expenseRegistration.createAt());
       this.active = true;
@@ -40,7 +40,7 @@ public class Expense {
     }
 
     public void updateExpense(ExpenseUpdateData expenseUpdateData, ExpenseUpdateDataService expenseUpdateDataService) {
-        this.description = expenseUpdateData.description();
+        this.description = expenseUpdateData.description().toUpperCase();
         this.entryValue = expenseUpdateData.entryValue();
         this.createAt = LocalDate.parse(expenseUpdateData.createAt());
         this.category = expenseUpdateDataService.isNull(expenseUpdateData);

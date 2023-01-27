@@ -4,7 +4,6 @@ import budget.control.api.domain.model.Category;
 import budget.control.api.domain.model.Expense;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Range;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +21,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     Optional<?> findAllByDescriptionAndActiveAndCreateAtBetween(String description, Boolean isActive, LocalDate dateIn, LocalDate dateOff);
 
-    Page<Expense> findAllByActiveTrueAndCategory(Category category, Pageable pageable);
+    Page<Expense> findAllByActiveTrueAndDescriptionOrCategory(String description, Category category, Pageable pageable);
 }

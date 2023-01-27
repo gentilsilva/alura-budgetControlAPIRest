@@ -21,32 +21,32 @@ public class ExpenseController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity createExpense(@RequestBody @Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
         return expenseService.createExpense(expenseRegistration, uriBuilder);
     }
 
     @GetMapping
-    public ResponseEntity<Page<?>> readAllExpense(String category, Pageable pageable) {
-        if(category == null) {
+    public ResponseEntity<Page<?>> readAllExpense(@RequestParam(required = false) String description, @RequestParam(required = false) String category,  Pageable pageable) {
+        if(description == null && category == null) {
             return expenseService.readAllExpense(pageable);
         }
-        return expenseService.readAllExpenseByCategory(category, pageable);
+        return expenseService.readAllExpenseByDescriptionOrCategory(description, category, pageable);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity readExpenseById(@PathVariable Long id) {
+    public ResponseEntity<?> readExpenseById(@PathVariable Long id) {
         return expenseService.readExpenseById(id);
     }
 
     @PutMapping("/{id}")
     @Transactional
-    public ResponseEntity updateExpenseById(@PathVariable Long id, @RequestBody @Valid ExpenseUpdateData expenseUpdateData) {
+    public ResponseEntity<?> updateExpenseById(@PathVariable Long id, @RequestBody @Valid ExpenseUpdateData expenseUpdateData) {
         return expenseService.updateExpenseById(id, expenseUpdateData);
     }
 
     @DeleteMapping("{id}")
     @Transactional
-    public ResponseEntity deleteExpenseById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteExpenseById(@PathVariable Long id) {
         return expenseService.deleteExpenseById(id);
     }
 

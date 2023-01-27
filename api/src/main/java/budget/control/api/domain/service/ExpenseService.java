@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
@@ -27,7 +26,7 @@ public class ExpenseService {
     @Autowired
     ExpenseUpdateDataService expenseUpdateDataService;
 
-    public ResponseEntity createExpense(@Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<?> createExpense(@Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
         if(expenseRegistration.isRepeatable(expenseRepository)) {
             return ResponseEntity.badRequest().body("Despesa já registrada no mês");
         }
@@ -43,15 +42,15 @@ public class ExpenseService {
         return ResponseEntity.ok(expenseRepository.findAllByActiveTrue(pageable).map(DetailedExpenseData::new));
     }
 
-    public ResponseEntity<Page<?>> readAllExpenseByCategory(@RequestParam("category") String category, Pageable pageable) {
-        return ResponseEntity.ok(expenseRepository.findAllByActiveTrueAndCategory(Category.valueOf(category.toUpperCase()), pageable).map(DetailedExpenseData::new));
+    public ResponseEntity<Page<?>> readAllExpenseByDescriptionOrCategory(String description, String category, Pageable pageable) {
+        return ResponseEntity.ok(expenseRepository.findAllByActiveTrueAndDescriptionOrCategory(description, Category.valueOf(category.toUpperCase()),  pageable).map(DetailedExpenseData::new));
     }
 
-    public ResponseEntity readExpenseById(Long id) {
+    public ResponseEntity<?> readExpenseById(Long id) {
         return ResponseEntity.ok(new DetailedExpenseData(expenseRepository.getReferenceByIdAndActiveTrue(id)));
     }
 
-    public ResponseEntity updateExpenseById(Long id, ExpenseUpdateData expenseUpdateData) {
+    public ResponseEntity<?> updateExpenseById(Long id, ExpenseUpdateData expenseUpdateData) {
         if(expenseUpdateData.isRepeatable(expenseRepository)) {
             return ResponseEntity.badRequest().body("Despesa já registrada no mês");
         }
@@ -61,10 +60,11 @@ public class ExpenseService {
         return ResponseEntity.ok(new DetailedExpenseData(income));
     }
 
-    public ResponseEntity deleteExpenseById(Long id) {
+    public ResponseEntity<?> deleteExpenseById(Long id) {
         var expense = expenseRepository.getReferenceByIdAndActiveTrue(id);
         expense.inactivateExpense();
 
         return ResponseEntity.noContent().build();
     }
+
 }
