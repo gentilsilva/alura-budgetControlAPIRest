@@ -1,5 +1,6 @@
 package budget.control.api.domain.model.form;
 
+import budget.control.api.domain.model.Category;
 import budget.control.api.domain.repository.IncomeRepository;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ public record IncomeRegistration(
 
         @NotBlank
         String createAt
+
 ) {
 
         public Boolean isRepeatable(IncomeRepository incomeRepository) {
@@ -30,5 +32,7 @@ public record IncomeRegistration(
                 Boolean isActive = true;
                 return incomeRepository.findByDescriptionAndActiveAndCreateAtBetween(description(), isActive, dateIn, dateOff).isPresent();
         }
+
+
 
 }

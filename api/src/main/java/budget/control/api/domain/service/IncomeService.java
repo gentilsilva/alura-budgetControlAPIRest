@@ -6,17 +6,23 @@ import budget.control.api.domain.model.form.IncomeRegistration;
 import budget.control.api.domain.model.form.IncomeUpdateData;
 import budget.control.api.domain.repository.IncomeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.time.format.DateTimeFormatter;
 
 @Service
 public class IncomeService {
 
     @Autowired
     private IncomeRepository incomeRepository;
+
+    @Autowired
+    private ExpenseRegistrationService expenseRegistrationService;
+
+    @Autowired
+    private ExpenseUpdateDataService expenseUpdateDataService;
 
     public ResponseEntity createIncome( IncomeRegistration incomeRegistration, UriComponentsBuilder uriBuilder) {
         if(incomeRegistration.isRepeatable(incomeRepository)) {
@@ -31,10 +37,10 @@ public class IncomeService {
         return ResponseEntity.created(uri).body(new DetailedIncomeData(income));
     }
 
-    public ResponseEntity readAllIncome() {
-        var incomeList = incomeRepository.findAllByActiveTrue();
+    public ResponseEntity<Page<?>> readAllIncome(Pageable pageable) {
+        var incomeList = incomeRepository.findAllByActiveTrue(pageable).map(DetailedIncomeData::new);
 
-        return ResponseEntity.ok().body(incomeList.stream().map(DetailedIncomeData::new).toList());
+        return ResponseEntity.ok(incomeList);
     }
 
     public ResponseEntity readIncomeById(Long id) {
@@ -59,4 +65,9 @@ public class IncomeService {
 
         return ResponseEntity.noContent().build();
     }
+
+    protected String setCategory() {
+        return "OUTRAS";
+    }
+
 }

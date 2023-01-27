@@ -17,7 +17,9 @@ public record ExpenseRegistration(
         BigDecimal entryValue,
 
         @NotBlank
-        String createAt
+        String createAt,
+
+        String category
 ) {
 
     public Boolean isRepeatable(ExpenseRepository expenseRepository) {

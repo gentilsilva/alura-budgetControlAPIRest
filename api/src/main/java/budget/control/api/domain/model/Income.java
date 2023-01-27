@@ -3,10 +3,7 @@ package budget.control.api.domain.model;
 import budget.control.api.domain.model.form.IncomeRegistration;
 import budget.control.api.domain.model.form.IncomeUpdateData;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,8 +21,8 @@ public class Income {
     private String description;
     private BigDecimal entryValue;
     private LocalDate createAt;
-
     private Boolean active;
+
 
     public Income(IncomeRegistration incomeRegistration) {
         this.description = incomeRegistration.description();
@@ -43,4 +40,9 @@ public class Income {
     public void inactivateIncome() {
         this.active = false;
     }
+
+
+
+
+
 }

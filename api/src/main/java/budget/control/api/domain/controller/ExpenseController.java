@@ -6,6 +6,8 @@ import budget.control.api.domain.service.ExpenseService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -24,8 +26,11 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public ResponseEntity readAllExpense() {
-        return expenseService.readAllExpense();
+    public ResponseEntity<Page<?>> readAllExpense(String category, Pageable pageable) {
+        if(category == null) {
+            return expenseService.readAllExpense(pageable);
+        }
+        return expenseService.readAllExpenseByCategory(category, pageable);
     }
 
     @GetMapping("/{id}")

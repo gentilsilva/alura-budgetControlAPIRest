@@ -1,0 +1,1 @@
+ALTER TABLE expenses ADD category VARCHAR(100) NOT NULL;

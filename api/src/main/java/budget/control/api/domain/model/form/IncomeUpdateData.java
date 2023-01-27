@@ -15,6 +15,7 @@ public record IncomeUpdateData(
         BigDecimal entryValue,
         @NotNull
         String createAt
+
 ) {
 
         public Boolean isRepeatable(IncomeRepository incomeRepository) {

@@ -14,7 +14,9 @@ public record ExpenseUpdateData(
         @NotNull
         BigDecimal entryValue,
         @NotNull
-        String createAt
+        String createAt,
+
+        String category
 
 ) {
 
