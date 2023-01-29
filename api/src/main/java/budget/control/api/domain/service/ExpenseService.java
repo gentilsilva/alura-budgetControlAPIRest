@@ -1,6 +1,5 @@
 package budget.control.api.domain.service;
 
-import budget.control.api.domain.model.Category;
 import budget.control.api.domain.model.Expense;
 import budget.control.api.domain.model.dto.DetailedExpenseData;
 import budget.control.api.domain.model.form.ExpenseRegistration;
@@ -42,8 +41,8 @@ public class ExpenseService {
         return ResponseEntity.ok(expenseRepository.findAllByActiveTrue(pageable).map(DetailedExpenseData::new));
     }
 
-    public ResponseEntity<Page<?>> readAllExpenseByDescriptionOrCategory(String description, String category, Pageable pageable) {
-        return ResponseEntity.ok(expenseRepository.findAllByActiveTrueAndDescriptionOrCategory(description, Category.valueOf(category.toUpperCase()),  pageable).map(DetailedExpenseData::new));
+    public ResponseEntity<Page<?>> readAllExpenseByDescription(String description, Pageable pageable) {
+        return ResponseEntity.ok(expenseRepository.findAllByActiveTrueAndDescription(description,pageable).map(DetailedExpenseData::new));
     }
 
     public ResponseEntity<?> readExpenseById(Long id) {
@@ -67,4 +66,7 @@ public class ExpenseService {
         return ResponseEntity.noContent().build();
     }
 
+    public ResponseEntity<Page<?>> readAllExpenseByYearAndMonth(Integer year, Integer month, Pageable pageable) {
+        return ResponseEntity.ok(expenseRepository.findAllExpenseByActiveTrueAndYearAndMonth(year, month, pageable).map(DetailedExpenseData::new));
+    }
 }

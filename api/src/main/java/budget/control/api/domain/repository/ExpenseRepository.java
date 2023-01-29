@@ -1,10 +1,8 @@
 package budget.control.api.domain.repository;
 
-import budget.control.api.domain.model.Category;
 import budget.control.api.domain.model.Expense;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -21,5 +19,8 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     Optional<?> findAllByDescriptionAndActiveAndCreateAtBetween(String description, Boolean isActive, LocalDate dateIn, LocalDate dateOff);
 
-    Page<Expense> findAllByActiveTrueAndDescriptionOrCategory(String description, Category category, Pageable pageable);
+    Page<Expense> findAllByActiveTrueAndDescription(String description, Pageable pageable);
+
+    @Query("SELECT e FROM Expense e WHERE e.active = TRUE AND YEAR(e.createAt) = ?1 AND MONTH(e.createAt) = ?2")
+    Page<Expense> findAllExpenseByActiveTrueAndYearAndMonth(Integer year, Integer month, Pageable pageable);
 }

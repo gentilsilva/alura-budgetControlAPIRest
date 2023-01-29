@@ -49,8 +49,12 @@ public class IncomeService {
         return ResponseEntity.ok(new DetailedIncomeData(income));
     }
 
-    public ResponseEntity<Page<?>> readIncomeByDescription(Pageable pageable, String description) {
-        return ResponseEntity.ok(incomeRepository.findAllByActiveTrueAndDescription(pageable, description.toUpperCase()).map(DetailedIncomeData::new));
+    public ResponseEntity<Page<?>> readAllIncomeByDescription(String description, Pageable pageable) {
+        return ResponseEntity.ok(incomeRepository.findAllByActiveTrueAndDescription(description.toUpperCase(), pageable).map(DetailedIncomeData::new));
+    }
+
+    public ResponseEntity<Page<?>> readAllIncomeByYearAndMonth(Integer year, Integer month, Pageable pageable) {
+        return ResponseEntity.ok(incomeRepository.findAllIncomeByActiveTrueAndYearAndMonth(year, month, pageable).map(DetailedIncomeData::new));
     }
 
     public ResponseEntity updateIncomeById(Long id, IncomeUpdateData incomeUpdateData) {

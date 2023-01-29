@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 
-public record ExpenseRegistration(
+public record ExpenseRegistration (
 
         @NotBlank
         String description,

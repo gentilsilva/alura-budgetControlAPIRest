@@ -2,7 +2,7 @@ package budget.control.api.domain.controller;
 
 import budget.control.api.domain.model.form.IncomeRegistration;
 import budget.control.api.domain.model.form.IncomeUpdateData;
-import budget.control.api.domain.service.IncomeService;
+import budget.control.api.domain.service.*;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -21,6 +21,9 @@ public class IncomeController {
     @Autowired
     private IncomeService incomeService;
 
+    @Autowired
+    IncomeVerifyDescriptionService incomeVerifyDescriptionService;
+
     @PostMapping
     @Transactional
     public ResponseEntity<?> createIncome(@RequestBody @Valid IncomeRegistration incomeRegistration, UriComponentsBuilder uriBuilder) {
@@ -28,16 +31,18 @@ public class IncomeController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<?>> readAllIncome(@PageableDefault Pageable pageable, String description) {
-        if(description == null) {
-            return incomeService.readAllIncome(pageable);
-        }
-        return incomeService.readIncomeByDescription(pageable, description);
+    public ResponseEntity<Page<?>> readAllIncome(String description, Pageable pageable) {
+        return incomeVerifyDescriptionService.hasDescription(description, pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> readIncomeById(@PathVariable Long id) {
         return incomeService.readIncomeById(id);
+    }
+
+    @GetMapping("/{year}/{month}")
+    public ResponseEntity<Page<?>> readAllIncomeByYearAndMonth(@PathVariable(value = "year") Integer year, @PathVariable(value = "month") Integer month, Pageable pageable) {
+        return incomeService.readAllIncomeByYearAndMonth(year, month, pageable);
     }
 
     @PutMapping("/{id}")

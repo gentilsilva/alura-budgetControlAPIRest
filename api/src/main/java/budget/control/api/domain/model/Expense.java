@@ -36,14 +36,14 @@ public class Expense {
       this.entryValue = expenseRegistration.entryValue();
       this.createAt = LocalDate.parse(expenseRegistration.createAt());
       this.active = true;
-      this.category = expenseRegistrationService.isNull(expenseRegistration);
+      this.category = expenseRegistrationService.isCategoryNull(expenseRegistration);
     }
 
     public void updateExpense(ExpenseUpdateData expenseUpdateData, ExpenseUpdateDataService expenseUpdateDataService) {
         this.description = expenseUpdateData.description().toUpperCase();
         this.entryValue = expenseUpdateData.entryValue();
         this.createAt = LocalDate.parse(expenseUpdateData.createAt());
-        this.category = expenseUpdateDataService.isNull(expenseUpdateData);
+        this.category = expenseUpdateDataService.isCategoryNull(expenseUpdateData);
     }
 
     public void inactivateExpense() {

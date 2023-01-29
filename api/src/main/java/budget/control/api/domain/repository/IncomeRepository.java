@@ -1,9 +1,8 @@
 package budget.control.api.domain.repository;
 
 import budget.control.api.domain.model.Income;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.*;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -20,5 +19,8 @@ public interface IncomeRepository extends JpaRepository<Income, Long> {
 
     Optional<?> findByDescriptionAndActiveAndCreateAtBetween(String description, Boolean isActive, LocalDate dateIn, LocalDate dateOff);
 
-    Page<Income> findAllByActiveTrueAndDescription(Pageable pageable, String description);
+    Page<Income> findAllByActiveTrueAndDescription(String description, Pageable pageable);
+
+    @Query("SELECT i FROM Income i WHERE i.active = TRUE And YEAR(i.createAt) = ?1 AND MONTH(i.createAt) = ?2")
+    Page<Income> findAllIncomeByActiveTrueAndYearAndMonth(Integer year, Integer month, Pageable pageable);
 }

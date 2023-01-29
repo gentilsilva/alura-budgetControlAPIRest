@@ -2,7 +2,7 @@ package budget.control.api.domain.controller;
 
 import budget.control.api.domain.model.form.ExpenseRegistration;
 import budget.control.api.domain.model.form.ExpenseUpdateData;
-import budget.control.api.domain.service.ExpenseService;
+import budget.control.api.domain.service.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,9 @@ public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
 
+    @Autowired
+    private ExpenseVerifyDescriptionService expenseVerifyDescriptionService;
+
     @PostMapping
     @Transactional
     public ResponseEntity<?> createExpense(@RequestBody @Valid ExpenseRegistration expenseRegistration, UriComponentsBuilder uriBuilder) {
@@ -26,16 +29,18 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<?>> readAllExpense(@RequestParam(required = false) String description, @RequestParam(required = false) String category,  Pageable pageable) {
-        if(description == null && category == null) {
-            return expenseService.readAllExpense(pageable);
-        }
-        return expenseService.readAllExpenseByDescriptionOrCategory(description, category, pageable);
+    public ResponseEntity<Page<?>> readAllExpense(@RequestParam(required = false) String description, Pageable pageable) {
+        return expenseVerifyDescriptionService.hasDescription(description, pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> readExpenseById(@PathVariable Long id) {
         return expenseService.readExpenseById(id);
+    }
+
+    @GetMapping("{year}/{month}")
+    public ResponseEntity<Page<?>> readAllExpenseByYearAndMonth(@PathVariable(value = "year") Integer year, @PathVariable(value = "month") Integer month, Pageable pageable) {
+        return expenseService.readAllExpenseByYearAndMonth(year, month, pageable);
     }
 
     @PutMapping("/{id}")

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExpenseUpdateDataService {
 
-    public Category isNull(ExpenseUpdateData expenseUpdateData) {
+    public Category isCategoryNull(ExpenseUpdateData expenseUpdateData) {
         if(expenseUpdateData.category().isBlank()) {
             return Category.OUTRAS;
         } else {
