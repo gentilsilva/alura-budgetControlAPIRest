@@ -12,13 +12,13 @@ import java.util.Optional;
 @Repository
 public interface IncomeRepository extends JpaRepository<Income, Long> {
 
-    Optional<?> findByDescriptionAndCreateAtBetween(String description, LocalDate dateIn, LocalDate dateOff);
+    Optional<Income> findByDescriptionAndCreateAtBetween(String description, LocalDate dateIn, LocalDate dateOff);
 
     Page<Income> findAllByActiveTrue(Pageable pageable);
 
     Income getReferenceByIdAndActiveTrue(Long id);
 
-    Optional<?> findByDescriptionAndActiveAndCreateAtBetween(String description, Boolean isActive, LocalDate dateIn, LocalDate dateOff);
+    Optional<Income> findByDescriptionAndActiveAndCreateAtBetween(String description, Boolean isActive, LocalDate dateIn, LocalDate dateOff);
 
     Page<Income> findAllByActiveTrueAndDescription(String description, Pageable pageable);
 

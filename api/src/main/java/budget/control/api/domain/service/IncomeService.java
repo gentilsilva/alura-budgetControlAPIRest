@@ -18,15 +18,9 @@ public class IncomeService {
     @Autowired
     private IncomeRepository incomeRepository;
 
-    @Autowired
-    private ExpenseRegistrationService expenseRegistrationService;
-
-    @Autowired
-    private ExpenseUpdateDataService expenseUpdateDataService;
-
-    public ResponseEntity createIncome( IncomeRegistration incomeRegistration, UriComponentsBuilder uriBuilder) {
-        if(incomeRegistration.isRepeatable(incomeRepository)) {
-            return ResponseEntity.badRequest().body("Receita já registrada no mês");
+    public ResponseEntity<DetailedIncomeData> createIncome(IncomeRegistration incomeRegistration, UriComponentsBuilder uriBuilder) {
+        if(Boolean.TRUE.equals(incomeRegistration.isRepeatable(incomeRepository))) {
+            return ResponseEntity.badRequest().build();
         }
 
         var income = new Income(incomeRegistration);
@@ -37,29 +31,29 @@ public class IncomeService {
         return ResponseEntity.created(uri).body(new DetailedIncomeData(income));
     }
 
-    public ResponseEntity<Page<?>> readAllIncome(Pageable pageable) {
+    public ResponseEntity<Page<DetailedIncomeData>> readAllIncome(Pageable pageable) {
         var incomeList = incomeRepository.findAllByActiveTrue(pageable).map(DetailedIncomeData::new);
 
         return ResponseEntity.ok(incomeList);
     }
 
-    public ResponseEntity readIncomeById(Long id) {
+    public ResponseEntity<DetailedIncomeData> readIncomeById(Long id) {
         var income = incomeRepository.getReferenceByIdAndActiveTrue(id);
 
         return ResponseEntity.ok(new DetailedIncomeData(income));
     }
 
-    public ResponseEntity<Page<?>> readAllIncomeByDescription(String description, Pageable pageable) {
+    public ResponseEntity<Page<DetailedIncomeData>> readAllIncomeByDescription(String description, Pageable pageable) {
         return ResponseEntity.ok(incomeRepository.findAllByActiveTrueAndDescription(description.toUpperCase(), pageable).map(DetailedIncomeData::new));
     }
 
-    public ResponseEntity<Page<?>> readAllIncomeByYearAndMonth(Integer year, Integer month, Pageable pageable) {
+    public ResponseEntity<Page<DetailedIncomeData>> readAllIncomeByYearAndMonth(Integer year, Integer month, Pageable pageable) {
         return ResponseEntity.ok(incomeRepository.findAllIncomeByActiveTrueAndYearAndMonth(year, month, pageable).map(DetailedIncomeData::new));
     }
 
-    public ResponseEntity updateIncomeById(Long id, IncomeUpdateData incomeUpdateData) {
-        if(incomeUpdateData.isRepeatable(incomeRepository)) {
-            return ResponseEntity.badRequest().body("Receita já registrada no mês");
+    public ResponseEntity<DetailedIncomeData> updateIncomeById(Long id, IncomeUpdateData incomeUpdateData) {
+        if(Boolean.TRUE.equals(incomeUpdateData.isRepeatable(incomeRepository))) {
+            return ResponseEntity.badRequest().build();
         }
        var income = incomeRepository.getReferenceByIdAndActiveTrue(id);
        income.updateIncome(incomeUpdateData);
@@ -67,7 +61,7 @@ public class IncomeService {
        return ResponseEntity.ok(new DetailedIncomeData(income));
     }
 
-    public ResponseEntity deleteIncomeById(Long id) {
+    public ResponseEntity<DetailedIncomeData> deleteIncomeById(Long id) {
         var income = incomeRepository.getReferenceByIdAndActiveTrue(id);
         income.inactivateIncome();
 

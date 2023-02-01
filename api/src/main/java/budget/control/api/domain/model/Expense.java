@@ -1,9 +1,8 @@
 package budget.control.api.domain.model;
 
+import budget.control.api.domain.model.converter.CategoryConverter;
 import budget.control.api.domain.model.form.ExpenseRegistration;
 import budget.control.api.domain.model.form.ExpenseUpdateData;
-import budget.control.api.domain.service.ExpenseRegistrationService;
-import budget.control.api.domain.service.ExpenseUpdateDataService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -21,32 +20,33 @@ import java.time.LocalDate;
 @EqualsAndHashCode(of = "id")
 public class Expense {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String description;
-    private BigDecimal entryValue;
-    private LocalDate createAt;
-    private Boolean active;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String description;
+	private BigDecimal entryValue;
+	private LocalDate createAt;
+	private Boolean active;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+	private Category category;
+	
 
-    public Expense(ExpenseRegistration expenseRegistration, ExpenseRegistrationService expenseRegistrationService) {
+	public Expense(ExpenseRegistration expenseRegistration, CategoryConverter categoryConverter) {
       this.description = expenseRegistration.description().toUpperCase();
       this.entryValue = expenseRegistration.entryValue();
       this.createAt = LocalDate.parse(expenseRegistration.createAt());
       this.active = true;
-      this.category = expenseRegistrationService.isCategoryNull(expenseRegistration);
+      this.category = categoryConverter.convertToEntityAttribute(expenseRegistration.category());
     }
 
-    public void updateExpense(ExpenseUpdateData expenseUpdateData, ExpenseUpdateDataService expenseUpdateDataService) {
-        this.description = expenseUpdateData.description().toUpperCase();
-        this.entryValue = expenseUpdateData.entryValue();
-        this.createAt = LocalDate.parse(expenseUpdateData.createAt());
-        this.category = expenseUpdateDataService.isCategoryNull(expenseUpdateData);
-    }
+	public void updateExpense(ExpenseUpdateData expenseUpdateData, CategoryConverter categoryConverter) {
+		this.description = expenseUpdateData.description().toUpperCase();
+		this.entryValue = expenseUpdateData.entryValue();
+		this.createAt = LocalDate.parse(expenseUpdateData.createAt());
+		this.category = categoryConverter.convertToEntityAttribute(expenseUpdateData.category());
+	}
 
-    public void inactivateExpense() {
-        this.active = false;
-    }
+	public void inactivateExpense() {
+		this.active = false;
+	}
 }

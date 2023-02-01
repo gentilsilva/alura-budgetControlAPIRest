@@ -14,7 +14,7 @@ public class SummaryService {
     @Autowired
     IncomeRepository incomeRepository;
 
-    public ResponseEntity<?> readIncomeSummaryByYearAndMonth(Integer year, Integer month) {
+    public ResponseEntity<DetailedSummaryData> readIncomeSummaryByYearAndMonth(Integer year, Integer month) {
         var incomeSummary = incomeRepository.findSummaryByYearAndMonth(year, month);
         var expenseSummary = expenseRepository.readExpenseSummaryByYearAndMonth(year, month);
         var categorySummary = expenseRepository.readExpenseSummaryByDescriptionAndYearAndMonth(year, month);
