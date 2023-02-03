@@ -133,5 +133,5 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 
 --- 
 
-- [] Testes automatizados
+- [ ] Testes automatizados
 * A ser implementado
