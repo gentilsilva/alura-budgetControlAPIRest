@@ -104,7 +104,7 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 
 ---
 
--[x] Buscar Receitas/Despesas
+- [x] Buscar Receitas/Despesas
 * A API possui um endpoint que aceita requisições do tipo GET para busca de receitas e despesas por descrição ou/e categoria
 * O endpoint é o mesmo utilizado pela listagem de receitas, mas incluindo um parâmetro chamado descrição ou/e categoria
   * /incomes?description={descrição} ou /incomes?category={categoria}
@@ -114,7 +114,7 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 
 ---
 
--[x] Listar Receitas/Despesas por mês
+- [x] Listar Receitas/Despesas por mês
 * A API possui um endpoint com requisição do tipo GET para listar receitas e despesas por ano/mês
 * Ano e mês serão passados pela URI e serão retornados os os dados descrição, valor e data em formato JSON
   * /incomes/{ano}/{mes}
@@ -122,7 +122,7 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 
 ---
 
--[x] Resumo do mês
+- [x] Resumo do mês
 * A API possui um endpoint que aceita requisição do tipo GET para as URIs
   * /summary/{ano}/{mes}
 * O resumo contém as seguintes informações
@@ -133,5 +133,5 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 
 --- 
 
--[] Testes automatizados
+- [] Testes automatizados
 * A ser implementado
