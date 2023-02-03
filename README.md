@@ -22,30 +22,30 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 * JPA/Hibernate
 * Maven
 * Isomnia
-* Intellij IDEA
+* Intellij IDEA -> Eclipse
 
 # <h2 align="center"> 1º Semana  </h2>
 
 - [x] Banco de Dados
 * A modelagem do banco ficou da seguinte forma: 
   * Entidade Receita 
-    * Id
-    * Descrição
-    * Valor
-    * Data
+    * Id - como id
+    * Descrição - como description
+    * Valor - como entryValue
+    * Data - como createAt
   
   * Entidade Despesa
-    * Id
-    * Descrição
-    * Valor
-    * Data
+    * Id - como id
+    * Descrição - como description
+    * Valor - como entryValue
+    * Data - como createAt
 
 ---
 
 - [x] Cadastro
 * A API possui endPoints que aceitam requisições do tipo POST para as URIs
-  * /incomes
-  * /expenses
+  * /incomes - referente a Receitas
+  * /expenses - referente a Despesas
 * Os dados serão enviados no corpo da requisição no formato JSON (JavaScript Object Notation)
 * Todas as informações tanto de receita quanto de despesa são obrigatórias
 * A API não permite o cadastro de receitas e despesas duplicadas (contendo mesma descrição, dentro do mesmo mês)
@@ -79,3 +79,10 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 * Os IDs serão referente aos dados que a aplicação deve deletar
 * Essa requisição não apaga os dados permanente do banco, simplismente desativa estes
 * Ao desativá-los, não será possível listar ou atualizar estes, mas será possível adicionar outra Receita ou Despesa com as mesmas informações
+
+# <h2 alignt="center"> 2º Semana </h2>
+
+- [x] Banco de Dados
+* Adicionado em:
+  * Entidade Despesa
+    * Categoria - como category
