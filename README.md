@@ -80,7 +80,7 @@ O desafio é dividido em 4 semanas com diferentes tarefas para serem implementad
 * Essa requisição não apaga os dados permanente do banco, simplismente desativa estes
 * Ao desativá-los, não será possível listar ou atualizar estes, mas será possível adicionar outra Receita ou Despesa com as mesmas informações
 
-# <h2 alignt="center"> 2º Semana </h2>
+# <h2 align="center"> 2º Semana </h2>
 
 - [x] Banco de Dados
 * Adicionado em:
