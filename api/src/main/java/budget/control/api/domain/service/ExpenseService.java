@@ -17,52 +17,59 @@ import budget.control.api.domain.repository.ExpenseRepository;
 @Service
 public class ExpenseService {
 
-    @Autowired
-    ExpenseRepository expenseRepository;
+	@Autowired
+	private ExpenseRepository expenseRepository;
 
-    public ResponseEntity<DetailedExpenseData> createExpense(ExpenseRegistration expenseRegistration, CategoryConverter categoryConverter, UriComponentsBuilder uriBuilder) {
-        if(Boolean.TRUE.equals(expenseRegistration.isRepeatable(expenseRepository))) {
-            return ResponseEntity.badRequest().build();
-        }
-        var expense = new Expense(expenseRegistration, categoryConverter);
-        expenseRepository.save(expense);
+	public ResponseEntity<DetailedExpenseData> createExpense(ExpenseRegistration expenseRegistration,
+			CategoryConverter categoryConverter, UriComponentsBuilder uriBuilder) {
+		if (Boolean.TRUE.equals(expenseRegistration.isRepeatable(expenseRepository))) {
+			return ResponseEntity.badRequest().build();
+		}
+		var expense = new Expense(expenseRegistration, categoryConverter);
+		expenseRepository.save(expense);
 
-        var uri = uriBuilder.path("/expenses/{id}").buildAndExpand(expense.getId()).toUri();
+		var uri = uriBuilder.path("/expenses/{id}").buildAndExpand(expense.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new DetailedExpenseData(expense));
-    }
+		return ResponseEntity.created(uri).body(new DetailedExpenseData(expense));
+	}
 
-    public ResponseEntity<Page<DetailedExpenseData>> readAllExpense(Pageable pageable) {
-        return ResponseEntity.ok(expenseRepository.findAllByActiveTrue(pageable).map(DetailedExpenseData::new));
-    }
+	public ResponseEntity<Page<DetailedExpenseData>> readAllExpense(Pageable pageable) {
+		return ResponseEntity.ok(expenseRepository.findAllByActiveTrue(pageable).map(DetailedExpenseData::new));
+	}
 
-    public ResponseEntity<Page<DetailedExpenseData>> readAllExpenseByDescriptionOrCategory(String description, String category, Pageable pageable) {
-    	CategoryConverter categoryConverter = new CategoryConverter();
-        return ResponseEntity.ok(expenseRepository.findAllByOptionalFilters(description, categoryConverter.convertToEntityAttribute(category), pageable).map(DetailedExpenseData::new));
-    }
+	public ResponseEntity<Page<DetailedExpenseData>> readAllExpenseByDescriptionOrCategory(String description,
+			String category, Pageable pageable) {
+		CategoryConverter categoryConverter = new CategoryConverter();
+		return ResponseEntity.ok(expenseRepository
+				.findAllByOptionalFilters(description, categoryConverter.convertToEntityAttribute(category), pageable)
+				.map(DetailedExpenseData::new));
+	}
 
-    public ResponseEntity<DetailedExpenseData> readExpenseById(Long id) {
-        return ResponseEntity.ok(new DetailedExpenseData(expenseRepository.getReferenceByIdAndActiveTrue(id)));
-    }
+	public ResponseEntity<DetailedExpenseData> readExpenseById(Long id) {
+		return ResponseEntity.ok(new DetailedExpenseData(expenseRepository.getReferenceByIdAndActiveTrue(id)));
+	}
 
-    public ResponseEntity<DetailedExpenseData> updateExpenseById(Long id, ExpenseUpdateData expenseUpdateData, CategoryConverter categoryConverter) {
-        if(Boolean.TRUE.equals(expenseUpdateData.isRepeatable(expenseRepository))) {
-            return ResponseEntity.badRequest().build();
-        }
-        var income = expenseRepository.getReferenceByIdAndActiveTrue(id);
-        income.updateExpense(expenseUpdateData, categoryConverter);
+	public ResponseEntity<DetailedExpenseData> updateExpenseById(Long id, ExpenseUpdateData expenseUpdateData,
+			CategoryConverter categoryConverter) {
+		if (Boolean.TRUE.equals(expenseUpdateData.isRepeatable(expenseRepository))) {
+			return ResponseEntity.badRequest().build();
+		}
+		var income = expenseRepository.getReferenceByIdAndActiveTrue(id);
+		income.updateExpense(expenseUpdateData, categoryConverter);
 
-        return ResponseEntity.ok(new DetailedExpenseData(income));
-    }
+		return ResponseEntity.ok(new DetailedExpenseData(income));
+	}
 
-    public ResponseEntity<DetailedExpenseData> deleteExpenseById(Long id) {
-        var expense = expenseRepository.getReferenceByIdAndActiveTrue(id);
-        expense.inactivateExpense();
+	public ResponseEntity<DetailedExpenseData> deleteExpenseById(Long id) {
+		var expense = expenseRepository.getReferenceByIdAndActiveTrue(id);
+		expense.inactivateExpense();
 
-        return ResponseEntity.noContent().build();
-    }
+		return ResponseEntity.noContent().build();
+	}
 
-    public ResponseEntity<Page<DetailedExpenseData>> readAllExpenseByYearAndMonth(Integer year, Integer month, Pageable pageable) {
-        return ResponseEntity.ok(expenseRepository.findAllExpenseByActiveTrueAndYearAndMonth(year, month, pageable).map(DetailedExpenseData::new));
-    }
+	public ResponseEntity<Page<DetailedExpenseData>> readAllExpenseByYearAndMonth(Integer year, Integer month,
+			Pageable pageable) {
+		return ResponseEntity.ok(expenseRepository.findAllExpenseByActiveTrueAndYearAndMonth(year, month, pageable)
+				.map(DetailedExpenseData::new));
+	}
 }

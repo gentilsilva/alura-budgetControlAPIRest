@@ -9,10 +9,10 @@ import org.springframework.stereotype.*;
 @Service
 public class SummaryService {
     @Autowired
-    ExpenseRepository expenseRepository;
+    private ExpenseRepository expenseRepository;
 
     @Autowired
-    IncomeRepository incomeRepository;
+    private IncomeRepository incomeRepository;
 
     public ResponseEntity<DetailedSummaryData> readIncomeSummaryByYearAndMonth(Integer year, Integer month) {
         var incomeSummary = incomeRepository.findSummaryByYearAndMonth(year, month);
